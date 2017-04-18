@@ -1,63 +1,57 @@
 package be.vdab.valueobjects;
 
-import java.util.regex.Pattern;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ISBN {
 
-    private static final Pattern REG_EXPR = Pattern.compile("^\\d{13}$");
-    private long isbn;
-
-    public ISBN(long isbn) {
-	String isbnStr = String.valueOf(isbn);
-	if (!REG_EXPR.matcher(isbnStr).matches()) {
-	    throw new IllegalArgumentException("Verkeerd formaat");
-	}
-	if (!isbnStr.substring(0, 2).equals("978") || !isbnStr.substring(0, 2).equals("979")) {
-	    throw new IllegalArgumentException("Eerste 3 cijfers moeten 978 of 979 zijn");
-	}
-	if (controleerISBN(isbn)) {
-	    this.isbn = isbn;
-	} else {
-	    throw new IllegalArgumentException();
-	}
+    private static final long KLEINSTE_GETAL_MET_13_CIJFERS = 1000_000_000_000L;
+    private static final long GROOTSTE_GETAL_MET_13_CIJFERS = 9999_999_999_999L;
+    private static final Set<Short> MOGELIJKE_EERSTE_3_CIJFERS = new HashSet<>();
+    private final long nummer;
+    
+    static {
+	MOGELIJKE_EERSTE_3_CIJFERS.add((short) 978);
+	MOGELIJKE_EERSTE_3_CIJFERS.add((short) 979);
     }
 
-    private boolean controleerISBN(long isbn) {
-	long somOneven = 0;
-	for (int i = 0; i < 12; i += 2) {
-	    somOneven += Long.parseLong(String.valueOf(isbn).substring(i, i + 1));
-	}
-	long somEven = 0;
-	for (int i = 1; i < 12; i += 2) {
-	    somEven += Long.parseLong(String.valueOf(isbn).substring(i, i + 1));
-	}
-	long som = somOneven + somEven * 3;
-	
-	long hogerGelegenTiental = som;
-	while (hogerGelegenTiental % 10 != 0) {
-	    hogerGelegenTiental++;
-	}
-	long verschil = hogerGelegenTiental - som;
-	return verschil == Long.parseLong(String.valueOf(isbn).substring(12, 13));
-    }
-
-    
-    
-    //9789027439642
-    
-    
-    
-    public long getIsbn() {
-	return isbn;
-    }
-
-    public void setIsbn(long isbn) {
-	this.isbn = isbn;
+    public ISBN(long nummer) { 
+      if (nummer < KLEINSTE_GETAL_MET_13_CIJFERS 
+       || nummer > GROOTSTE_GETAL_MET_13_CIJFERS) { 
+        throw new IllegalArgumentException("Bevat geen 13 cijfers"); 
+      } 
+      short eerste3Cijfers = (short) (nummer / 10_000_000_000L); 
+        if (!MOGELIJKE_EERSTE_3_CIJFERS.contains(eerste3Cijfers)) { 
+        throw new IllegalArgumentException( 
+          "Begint niet met " + MOGELIJKE_EERSTE_3_CIJFERS); 
+        } 
+      long somEvenCijfers = 0; 
+      long somOnEvenCijfers = 0; 
+      long teVerwerkenCijfers = nummer / 10; 
+      for (int teller = 0; teller != 6; teller++) { 
+        somEvenCijfers += teVerwerkenCijfers % 10; 
+        teVerwerkenCijfers /= 10; 
+        somOnEvenCijfers += teVerwerkenCijfers % 10; 
+        teVerwerkenCijfers /= 10; 
+      } 
+      long controleGetal = somEvenCijfers * 3 + somOnEvenCijfers; 
+      long naastGelegenHoger10Tal = controleGetal - controleGetal % 10 + 10; 
+      long verschil = naastGelegenHoger10Tal - controleGetal; 
+      long laatsteCijfer = nummer % 10; 
+      if (verschil == 10) { 
+        if (laatsteCijfer != 0) { 
+          throw new IllegalArgumentException("Verkeerd controlegetal"); 
+        } 
+      } else { 
+        if (laatsteCijfer != verschil) { 
+          throw new IllegalArgumentException("Verkeerd controlegetal"); 
+        } 
+      } 
+      this.nummer = nummer; 
     }
 
     @Override
     public String toString() {
-	return String.valueOf(isbn);
+	return String.valueOf(nummer);
     }
-
 }
