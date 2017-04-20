@@ -14,9 +14,9 @@ public class ISBN {
 	MOGELIJKE_EERSTE_3_CIJFERS.add((short) 978);
 	MOGELIJKE_EERSTE_3_CIJFERS.add((short) 979);
     }
-    
-    // 9789027439642L
-    
+
+    // 9789027439642
+
     public ISBN(long nummer) {
 	if (nummer < KLEINSTE_GETAL_MET_13_CIJFERS || nummer > GROOTSTE_GETAL_MET_13_CIJFERS) {
 	    throw new IllegalArgumentException("Bevat geen 13 cijfers");
@@ -28,16 +28,25 @@ public class ISBN {
 	long somEvenCijfers = 0;
 	long somOnEvenCijfers = 0;
 	long teVerwerkenCijfers = nummer / 10;
+	// teVerwerkenCijfers = 978902743964
 	for (int teller = 0; teller != 6; teller++) {
 	    somEvenCijfers += teVerwerkenCijfers % 10;
+	    // somEvenCijfers += 4
 	    teVerwerkenCijfers /= 10;
+	    // teVerwerkenCijfers = 97890274396
 	    somOnEvenCijfers += teVerwerkenCijfers % 10;
+	    // somOnEvenCijfers += 6
 	    teVerwerkenCijfers /= 10;
+	    // teVerwerkenCijfers = 9789027439
 	}
 	long controleGetal = somEvenCijfers * 3 + somOnEvenCijfers;
 	long naastGelegenHoger10Tal = controleGetal - controleGetal % 10 + 10;
+	// naastGelegenHoger10Tal = 138 - 8 + 10
+	// naastGelegenHoger10Tal = 140
 	long verschil = naastGelegenHoger10Tal - controleGetal;
+	// verschil = 140 - 138 = 2
 	long laatsteCijfer = nummer % 10;
+	// laatsteCijfer = 9789027439642 % 10 = 2
 	if (verschil == 10) {
 	    if (laatsteCijfer != 0) {
 		throw new IllegalArgumentException("Verkeerd controlegetal");

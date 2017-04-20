@@ -37,7 +37,7 @@ public class ISBNTest {
 
     @Test
     public void eenNummerMet13CijfersMetCorrectControleGetal2() {
-	new ISBN(9789027439642L);
+	new ISBN(9789027439642L); // CORRECTE WAARDE - dit mag geen exception veroorzaken
     }
 
     @Test(expected = IllegalArgumentException.class)
