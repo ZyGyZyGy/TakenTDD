@@ -3,7 +3,7 @@ package be.vdab.entities;
 public class WoordTeller {
 
     private String zin;
-    // private static final Pattern REG_EXPR = Pattern.compile("\\s+");
+    // reg expression voor toelaatbare tekens
     private static final String REG_EXPR = "\\s+";
 
     public WoordTeller(String zin) {
