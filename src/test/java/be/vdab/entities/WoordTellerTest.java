@@ -17,18 +17,15 @@ public class WoordTellerTest {
     }
 
     @Test
-    public void zinMet1WoordIsOk() {
-	new WoordTeller("Hello");
+    public void telWoordenRetourneert0InZinMetEnkelEenSpatie() {
+	WoordTeller woordTeller = new WoordTeller(" ");
+	assertEquals(0, woordTeller.telWoorden());
     }
-
+    
     @Test
-    public void zinMet2WoordenIsOk() {
-	new WoordTeller("Hello world");
-    }
-
-    @Test
-    public void zinMet2WoordenEnMeerdereSpatiesIsOk() {
-	new WoordTeller("Hello    world");
+    public void telWoordenRetourneert0InZinMetEnkelSpaties() {
+	WoordTeller woordTeller = new WoordTeller("   ");
+	assertEquals(0, woordTeller.telWoorden());
     }
 
     @Test

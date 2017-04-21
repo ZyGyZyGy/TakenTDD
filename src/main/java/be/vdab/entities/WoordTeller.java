@@ -18,6 +18,7 @@ public class WoordTeller {
     }
 
     // new WoordTeller(",, , ");
+    // new WoordTeller("Dit is een zin");
     
     public int telWoorden() {
 	int aantalWoorden = 0;
