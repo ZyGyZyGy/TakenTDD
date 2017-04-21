@@ -3,12 +3,11 @@ package be.vdab.entities;
 public class WoordTeller {
 
     private String zin;
-    // reg expression voor toelaatbare tekens
-    private static final String REG_EXPR = "\\s+";
+//    private static final String REG_EXPR = "\\s+";
 
     public WoordTeller(String zin) {
-	if (zin.isEmpty()) {
-	    throw new IllegalArgumentException("Mag geen lege string zijn");
+	if (zin == null) {
+	    throw new NullPointerException();
 	}
 	this.zin = zin;
     }
@@ -18,13 +17,44 @@ public class WoordTeller {
 	return zin;
     }
 
+    // new WoordTeller(",, , ");
+    
     public int telWoorden() {
-	String[] arrWoorden = zin.trim().split(REG_EXPR);
 	int aantalWoorden = 0;
-	for (String string : arrWoorden) {
-	    aantalWoorden++;
+	int index = 0;
+	while (index != zin.length()) {
+	    while (index != zin.length() && (zin.charAt(index) == ' ' || zin.charAt(index) == ',')) {
+		index++;
+	    }
+	    if (index != zin.length()) {
+		aantalWoorden++;
+		while (index != zin.length() && zin.charAt(index) != ' ' && zin.charAt(index) != ',') {
+		    index++;
+		}
+	    }
 	}
 	return aantalWoorden;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    // bij rare zinnen met alles behalve alfanumerike tekens werkt niet goed
+    // public int telWoorden() {
+    // int aantalWoorden = 0;
+    // if (!zin.isEmpty()) {
+    // String[] arrWoorden = zin.trim().split(REG_EXPR);
+    // for (String woord : arrWoorden) {
+    // aantalWoorden++;
+    // }
+    // }
+    // return aantalWoorden;
+    // }
 
 }

@@ -5,14 +5,15 @@ import static org.junit.Assert.assertEquals;
 
 public class WoordTellerTest {
 
-    @Test(expected = IllegalArgumentException.class)
-    public void zinMet0WoordenIsVerkeerd() {
-	new WoordTeller("");
-    }
-
     @Test(expected = NullPointerException.class)
     public void zinMetNullIsVerkeerd() {
 	new WoordTeller(null);
+    }
+
+    @Test
+    public void zinMet0WoordenRetourneert0() {
+	WoordTeller woordTeller = new WoordTeller("");
+	assertEquals(0, woordTeller.telWoorden());
     }
 
     @Test
@@ -58,6 +59,25 @@ public class WoordTellerTest {
     public void telWoordenRetourneert3WoordenInZinMet5Spaties() {
 	WoordTeller woordTeller = new WoordTeller("Java  is  awesome ");
 	assertEquals(3, woordTeller.telWoorden());
+    }
+
+    @Test
+    public void telWoordenRetourneert0InZinMetEnkelKommas() {
+	WoordTeller woordTeller = new WoordTeller(",, , ");
+	assertEquals(0, woordTeller.telWoorden());
+    }
+
+    // deze test lukt niet
+    // @Test
+    // public void telWoordenRetourneert0InZinMetEnkelUitroeptekens() {
+    // WoordTeller woordTeller = new WoordTeller("!! ! ");
+    // assertEquals(0, woordTeller.telWoorden());
+    // }
+
+    @Test
+    public void tweeWoordenMetEenKommaErTussen() {
+	WoordTeller woordTeller = new WoordTeller("Hello, world");
+	assertEquals(2, woordTeller.telWoorden());
     }
 
     @Test
