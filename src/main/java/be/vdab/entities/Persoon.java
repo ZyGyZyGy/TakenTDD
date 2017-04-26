@@ -53,13 +53,22 @@ public class Persoon {
 
     @Override
     public String toString() {
-	/*
-	 * StringBuilder alleVoornamen = new StringBuilder(); int index = 0; if
-	 * (voornamen.length != 0) { while (index < voornamen.length) {
-	 * alleVoornamen.append(voornamen[index]); if (index != voornamen.length
-	 * - 1) { alleVoornamen.append(" "); } index++; } } else { return ""; }
-	 * return alleVoornamen.toString();
-	 */
+
+//	StringBuilder alleVoornamen = new StringBuilder();
+//	int index = 0;
+//	if (voornamen.length != 0) {
+//	    while (index < voornamen.length) {
+//		alleVoornamen.append(voornamen[index]);
+//		if (index != voornamen.length - 1) {
+//		    alleVoornamen.append(" ");
+//		}
+//		index++;
+//	    }
+//	} else {
+//	    return "";
+//	}
+//	return alleVoornamen.toString();
+
 	StringJoiner joiner = new StringJoiner(" ");
 	for (String voornaam : voornamen) {
 	    joiner.add(voornaam);
